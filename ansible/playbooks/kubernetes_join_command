@@ -1,0 +1,1 @@
+kubeadm join 10.0.1.10:6443 --token fxbftv.0xy5evkul7teviwr --discovery-token-ca-cert-hash sha256:5512393ae2f1d4c1842c827c07dfbb136c4c1cc143d1d7b2a6ca8ed0e1996899 

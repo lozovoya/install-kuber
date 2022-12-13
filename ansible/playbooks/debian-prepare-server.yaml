@@ -1,0 +1,64 @@
+---
+- name: Prepare servers
+  hosts: all
+  remote_user: "{{ user }}"
+  vars:
+    master_internal_ip: "{{ hostvars['k8s-master-01']['ansible_default_ipv4']['address']}}"
+    node_internal_ip: "{{ hostvars['k8s-node-01']['ansible_default_ipv4']['address']}}"
+  tasks:
+    - name: Set LC_CTYPE
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/default/locale"
+        line: 'LC_CTYPE="en_US.UTF-8"'
+        state: present
+    - name: Set LC_ALL
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/default/locale"
+        line: 'LC_ALL="en_US.UTF-8"'
+        state: present
+    - name: Apt update
+      become: true
+      ansible.builtin.apt:
+        update_cache: yes
+        allow_unauthenticated: true
+    - name: Upgrade to latest versions
+      become: true
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+    - name: add master record to hosts
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/hosts"
+        regexp: "{{ master_internal_ip }}"
+        line: "{{ master_internal_ip }} k8s-master-01"
+        state: present
+    - name: add node record to hosts
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/hosts"
+        regexp: "{{ node_internal_ip }}"
+        line: "{{ node_internal_ip }} k8s-node-01"
+        state: present
+    - name: disable swap
+      become: true
+      ansible.builtin.shell:
+        cmd: "swapoff -a"
+- name: Set a hostname for master
+  hosts: k8s-masters
+  remote_user: "{{ user }}"
+  tasks:
+    - name: set hostname
+      become: true
+      ansible.builtin.hostname:
+        name: "{{ master_hostname }}"
+- name: Set a hostname for nodes
+  hosts: k8s-nodes
+  remote_user: "{{ user }}"
+  tasks:
+    - name: set hostname
+      become: true
+      ansible.builtin.hostname:
+        name: "{{ node_hostname }}"

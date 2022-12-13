@@ -1,0 +1,5 @@
+---
+- import_playbook: playbooks/debian-prepare-server.yaml
+- import_playbook: playbooks/install-nodes.yaml
+- import_playbook: playbooks/control-plane.yaml
+- import_playbook: playbooks/node.yaml
