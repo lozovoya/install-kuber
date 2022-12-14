@@ -46,19 +46,11 @@
       become: true
       ansible.builtin.shell:
         cmd: "swapoff -a"
-- name: Set a hostname for master
-  hosts: k8s-masters
-  remote_user: "{{ user }}"
-  tasks:
-    - name: set hostname
+    - name: add master record to hosts
       become: true
-      ansible.builtin.hostname:
-        name: "{{ master_hostname }}"
-- name: Set a hostname for nodes
-  hosts: k8s-nodes
-  remote_user: "{{ user }}"
-  tasks:
-    - name: set hostname
-      become: true
-      ansible.builtin.hostname:
-        name: "{{ node_hostname }}"
+      ansible.builtin.lineinfile:
+        path: "/etc/hosts"
+        line: "{{ item }} {{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+        state: present
+      loop: "{{ query('inventory_hostnames', 'all') }}"
+

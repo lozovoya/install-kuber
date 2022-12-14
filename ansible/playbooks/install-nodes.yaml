@@ -3,22 +3,7 @@
   hosts: all
   remote_user: "{{ user }}"
   gather_facts: true
-  vars:
-#    master_internal_ip: "{{ hostvars['k8s-master-01']['ansible_default_ipv4']['address']}}"
-#    node_internal_ip: "{{ hostvars['k8s-node-01']['ansible_default_ipv4']['address']}}"
-    hostnames: |
-      [{{ hostvars.values()|map(attribute='hostname') }}]
-    ips2: |
-      [{{ hostvars.values()|map(attribute='ansible_default_ipv4.address') }}]
   tasks:
-    - name: add master record to hosts
-      become: true
-      ansible.builtin.lineinfile:
-        path: "/etc/hosts"
-        #regexp: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-        line: "{{ item }} {{ hostvars[item]['ansible_default_ipv4']['address'] }}"
-        state: present
-      loop: "{{ query('inventory_hostnames', 'all') }}"
     - name: Create containerd config
       become: true
       ansible.builtin.file:

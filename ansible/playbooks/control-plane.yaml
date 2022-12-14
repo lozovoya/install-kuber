@@ -27,10 +27,10 @@
       ansible.builtin.shell:
         cmd: "kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml"
 
-    - name: Configure kubeclt alias
+    - name: Configure kubectl alias
       ansible.builtin.lineinfile:
         path: "$HOME/.bashrc"
         search_string: "#alias l='ls -CF'"
-        line: "#alias k='kubectl'"
+        line: "alias k='kubectl'"
         state: present
 
