@@ -2,8 +2,11 @@
 k8s_masters:
   hosts:
     k8s-master-01:
-      ansible_host: 44.201.241.191
+      ansible_host: 158.160.47.115
 k8s_nodes:
   hosts:
     k8s-node-01:
-      ansible_host: 34.227.113.233
+      ansible_host: 158.160.44.47
+    k8s-node-02:
+      ansible_host: 158.160.40.185
+

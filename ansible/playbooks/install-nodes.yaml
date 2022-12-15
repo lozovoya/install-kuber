@@ -95,6 +95,12 @@
           - bash-completion
           - nfs-kernel-server
         state: present
+    - name: install helm
+      ansible.builtin.shell:
+        cmd: "curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash"
+    - name: add helm repo
+      ansible.builtin.shell:
+        cmd: "helm repo add stable https://charts.helm.sh/stable && helm repo update"
     - name: Add repo key
       become: true
       ansible.builtin.shell:

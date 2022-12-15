@@ -15,22 +15,21 @@
       ansible.builtin.shell:
         cmd: "kubeadm token create  --print-join-command"
       register: kubernetes_join_command
-
     - debug:
         msg: "{{ kubernetes_join_command.stdout }}"
-
     - name: Copy join command to local file.
       become: yes
       local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="kubernetes_join_command" mode=0777
-
     - name:
       ansible.builtin.shell:
         cmd: "kubectl apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml"
-
     - name: Configure kubectl alias
       ansible.builtin.lineinfile:
         path: "$HOME/.bashrc"
         search_string: "#alias l='ls -CF'"
         line: "alias k='kubectl'"
         state: present
+    - name: install nfs server
+      ansible.builtin.shell:
+        cmd: "helm install nfs-server stable/nfs-server-provisioner"
 

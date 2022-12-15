@@ -28,29 +28,39 @@
       ansible.builtin.apt:
         name: "*"
         state: latest
-    - name: add master record to hosts
+#    - name: add master record to hosts
+#      become: true
+#      ansible.builtin.lineinfile:
+#        path: "/etc/hosts"
+#        regexp: "{{ master_internal_ip }}"
+#        line: "{{ master_internal_ip }} k8s-master-01"
+#        state: present
+#    - name: add node record to hosts
+#      become: true
+#      ansible.builtin.lineinfile:
+#        path: "/etc/hosts"
+#        regexp: "{{ node_internal_ip }}"
+#        line: "{{ node_internal_ip }} k8s-node-01"
+#        state: present
+    - name: Set a hostname
       become: true
-      ansible.builtin.lineinfile:
-        path: "/etc/hosts"
-        regexp: "{{ master_internal_ip }}"
-        line: "{{ master_internal_ip }} k8s-master-01"
-        state: present
-    - name: add node record to hosts
-      become: true
-      ansible.builtin.lineinfile:
-        path: "/etc/hosts"
-        regexp: "{{ node_internal_ip }}"
-        line: "{{ node_internal_ip }} k8s-node-01"
-        state: present
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
     - name: disable swap
       become: true
       ansible.builtin.shell:
         cmd: "swapoff -a"
+    - name: add master record to template
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/cloud/templates/hosts.debian.tmpl"
+        line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ item }}"
+        state: present
+      loop: "{{ query('inventory_hostnames', 'all') }}"
     - name: add master record to hosts
       become: true
       ansible.builtin.lineinfile:
         path: "/etc/hosts"
-        line: "{{ item }} {{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+        line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ item }}"
         state: present
       loop: "{{ query('inventory_hostnames', 'all') }}"
-

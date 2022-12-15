@@ -1,0 +1,26 @@
+---
+- name: Restore hosts records
+  hosts: all
+  remote_user: "{{ user }}"
+  tasks:
+    - name: Set a hostname
+      become: true
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+    - name: qqq
+      debug: msg="{{ inventory_hostname }}"
+    - name: add master record to template
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/cloud/templates/hosts.debian.tmpl"
+        line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ item }}"
+        state: present
+      loop: "{{ query('inventory_hostnames', 'all') }}"
+    - name: add master record to hosts
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/hosts"
+        line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ item }}"
+        state: present
+      loop: "{{ query('inventory_hostnames', 'all') }}"
+
