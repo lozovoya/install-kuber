@@ -1,1 +1,1 @@
-kubeadm join 10.128.0.32:6443 --token klianl.ib841fabgikk3e71 --discovery-token-ca-cert-hash sha256:6afdd541adc097cdc9870309e7f609af47d58b0ba021aaa37f12b07de9f153a9 
+kubeadm join 10.128.0.26:6443 --token noz2na.6eaiuux2z15pvrnh --discovery-token-ca-cert-hash sha256:f62ba69496f58524583de3361fdaed643aa10f9376bf8a63eeac076fd48fe6d0 

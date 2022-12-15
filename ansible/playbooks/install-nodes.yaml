@@ -93,6 +93,7 @@
           - curl
           - software-properties-common
           - bash-completion
+          - nfs-kernel-server
         state: present
     - name: Add repo key
       become: true

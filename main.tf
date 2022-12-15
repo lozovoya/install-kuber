@@ -33,7 +33,7 @@ resource "aws_instance" "node" {
   key_name = "terraform"
   vpc_security_group_ids = [aws_security_group.kuber_sg.id]
   subnet_id = aws_subnet.kube_public_subnet.id
-  #count = 1
+  count = 2
 
   root_block_device {
     volume_size = 20
@@ -49,9 +49,9 @@ output "master_ip" {
   value = aws_instance.master.public_ip
 }
 
-output "node_ip" {
-  value = aws_instance.node.public_ip
-}
+#output "node_ip" {
+#  value = aws_instance.node.public_ip
+#}
 
 #resource "aws_instance" "client" {
 #
