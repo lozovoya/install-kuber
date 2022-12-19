@@ -1,1 +1,1 @@
-kubeadm join 10.0.1.10:6443 --token q31ppp.hgopyfgak7h9tvjs --discovery-token-ca-cert-hash sha256:fd275558c833e3d75088d7746c3e3546c91233e4eee8afa57fb78aa1e7a78121 
+kubeadm join 10.0.1.10:6443 --token s6xbeu.43zboen5zran6kco --discovery-token-ca-cert-hash sha256:3e5518124f2df4258ec8704b3d164c4191bd03202c180137a7672ba0e493b199 

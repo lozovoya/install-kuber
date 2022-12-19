@@ -28,20 +28,6 @@
       ansible.builtin.apt:
         name: "*"
         state: latest
-#    - name: add master record to hosts
-#      become: true
-#      ansible.builtin.lineinfile:
-#        path: "/etc/hosts"
-#        regexp: "{{ master_internal_ip }}"
-#        line: "{{ master_internal_ip }} k8s-master-01"
-#        state: present
-#    - name: add node record to hosts
-#      become: true
-#      ansible.builtin.lineinfile:
-#        path: "/etc/hosts"
-#        regexp: "{{ node_internal_ip }}"
-#        line: "{{ node_internal_ip }} k8s-node-01"
-#        state: present
     - name: Set a hostname
       become: true
       ansible.builtin.hostname:
