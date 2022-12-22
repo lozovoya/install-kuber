@@ -32,4 +32,8 @@
     - name: install nfs server
       ansible.builtin.shell:
         cmd: "helm install nfs-server stable/nfs-server-provisioner"
+    - name: activate autocomplete
+      ansible.builtin.shell:
+        cmd: "echo "source <(kubectl completion bash)" >> ~/.bashrc"
+
 
