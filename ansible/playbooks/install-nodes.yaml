@@ -94,6 +94,7 @@
           - software-properties-common
           - bash-completion
           - nfs-kernel-server
+          - jq
         state: present
     - name: install helm
       ansible.builtin.shell:
