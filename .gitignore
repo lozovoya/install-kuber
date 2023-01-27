@@ -1,2 +1,6 @@
 # kube join token
 /ansible/playbooks/kubernetes_join_command
+
+#terraform
+terraform.tfstate
+terraform.tfstate.backup
