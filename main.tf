@@ -49,9 +49,9 @@ output "master_ip" {
   value = aws_instance.master.public_ip
 }
 
-#output "node_ip" {
-#  value = aws_instance.node.public_ip
-#}
+output "node_ip" {
+  value = aws_instance.node[*].public_ip
+}
 
 #resource "aws_instance" "client" {
 #
